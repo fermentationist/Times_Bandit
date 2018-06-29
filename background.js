@@ -1,25 +1,44 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
+// set default icon appearance
+let toggle = false;
+
+// clear localStorage, sessionStorage and cookies
+const clearSiteData = () => {
+	// script to be inject into active tab as a string
 	let injectedCode = `
-		console.log(localStorage);
 		window.localStorage.clear();
-		console.log(sessionStorage);
 		window.sessionStorage.clear();
-		reg = /(=.*;)+/g;
+		// regex used to parse cookie string and extract keys
+		reg = /=\\S*;\\s/;
 		keys = document.cookie.split(reg);
-		console.log("keys = ", keys);
+		// each cookie redefined as blank and set to expired
 		keys.map((key) => {
-			document.cookie = key + "=null"
+			expiry = new Date(1528693200000);
+			newValue = key + "=;max-age=0;expires=" + expiry.toUTCString() + ";path=/;domain=nytimes.com;";
+			document.cookie = newValue;
 		});
-		console.log(document.cookie);
+		console.log("cookies cleared");
 		`;
+	// inject script into active tab
+	return chrome.tabs.executeScript({
+		code: injectedCode
+  	});	
+}
+
+// execute clearSiteData() when page is loaded or reloaded.
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    clearSiteData();
+}); 
+
+chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.browserAction.setIcon(
 			{path: "active.png", tabId: tab.id}
 		);
-	chrome.tabs.executeScript({
-		code: injectedCode
-  	});	
-  	 return chrome.browserAction.setIcon(
+	clearSiteData();
+	location.reload();
+	setTimeout(()=>{
+		chrome.browserAction.setIcon(
 			{path: "icon.png", tabId: tab.id}
 		);
+	}, 500);
+	
 });
-
