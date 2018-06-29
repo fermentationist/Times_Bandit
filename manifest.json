@@ -1,4 +1,3 @@
-
 {
 	"name": "Times Bandit",
 	"description": "Clear local storage, session storage, and session cookies",
@@ -7,9 +6,7 @@
 		"activeTab",
 		"tabs",
 		"storage",
-		"cookies",
-		"*://*.google.com/*",
-		"*://*.nytimes.com/*"
+		"cookies"
 	],
 	"background": {
 		"scripts": ["background.js"],
@@ -19,37 +16,5 @@
 		"default_icon": "icon.png",
 		"default_title": "Click to clear local storage, session storage, and session cookies"
 	},
-	// "commands": {
- //      "_execute_browser_action": {
- //        "suggested_key": {
- //          "default": "Ctrl+Shift+F",
- //          "mac": "MacCtrl+Shift+F"
- //        },
- //        "description": "activates Times Bandit 2.0",
- //        "global": true
- //      }
- //    },
 	"manifest_version": 2
 }
-
-
-// {
-// 	"name": "Papyracy",
-// 	"description": "Papyrus-ify it!",
-// 	"version": "1.0",
-// 	"permissions": [
-// 		"activeTab",
-// 		"tabs"
-// 	],
-// 	"background": {
-// 		"scripts": ["papyracy.js"],
-// 		"persistent": true
-// 	},
-// 	"browser_action": {
-// 		"default_icon": { "16": "Papyracy16.png",
-//            "48": "Papyracy48.png",
-//           "128": "Papyracy128.png" },
-// 		"default_title": "Papyracy leverages the fontastic power of Papyrus to quickly render any webpage nearly unreadable!"
-// 	},
-// 	"manifest_version": 2
-// }

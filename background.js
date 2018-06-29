@@ -13,7 +13,7 @@ const clearSiteData = () => {
 		// each cookie redefined as blank and set to expired
 		keys.map((key) => {
 			expiry = new Date(1528693200000);
-			newValue = key + "=;max-age=0;expires=" + expiry.toUTCString() + ";path=/;domain=nytimes.com;";
+			newValue = key + "=;max-age=0;expires=" + expiry.toUTCString() + ";path=/;";
 			document.cookie = newValue;
 		});
 		console.log("cookies cleared");
@@ -29,6 +29,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     clearSiteData();
 }); 
 
+// change icon appearance and run clearSiteData() when icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.browserAction.setIcon(
 			{path: "active.png", tabId: tab.id}
