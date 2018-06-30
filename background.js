@@ -1,6 +1,3 @@
-// set default icon appearance
-let toggle = false;
-
 // clear localStorage, sessionStorage and cookies
 const clearSiteData = () => {
 	// script to be inject into active tab as a string
@@ -13,7 +10,7 @@ const clearSiteData = () => {
 		// each cookie redefined as blank and set to expired
 		keys.map((key) => {
 			expiry = new Date(1528693200000);
-			newValue = key + "=;max-age=0;expires=" + expiry.toUTCString() + ";path=/;";
+			newValue = key + "=;max-age=0;expires=" + expiry.toUTCString() + ";path=/;domain=nytimes.com;";
 			document.cookie = newValue;
 		});
 		console.log("cookies cleared");
@@ -29,17 +26,17 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     clearSiteData();
 }); 
 
-// change icon appearance and run clearSiteData() when icon is clicked
+// change icon appearance, clearSiteData() and reload when icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.browserAction.setIcon(
-			{path: "active.png", tabId: tab.id}
+			{path: "icon_48_inverse.png", tabId: tab.id}
 		);
 	clearSiteData();
-	location.reload();
+	console.log("reloading...");
 	setTimeout(()=>{
 		chrome.browserAction.setIcon(
-			{path: "icon.png", tabId: tab.id}
+			{path: "icon_48.png", tabId: tab.id}
 		);
+		location.reload();
 	}, 500);
-	
 });
