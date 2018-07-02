@@ -1,3 +1,6 @@
+let toggle = window.localStorage.getItem("times-bandit");
+console.log("localStorage toggle = ", toggle);
+
 // clear localStorage, sessionStorage and cookies
 const clearSiteData = () => {
 	// script to be inject into active tab as a string
@@ -13,30 +16,56 @@ const clearSiteData = () => {
 			newValue = key + "=;max-age=0;expires=" + expiry.toUTCString() + ";path=/;domain=nytimes.com;";
 			document.cookie = newValue;
 		});
-		console.log("cookies cleared");
+		console.log("*cookies cleared*");
 		`;
 	// inject script into active tab
 	return chrome.tabs.executeScript({
 		code: injectedCode
   	});	
+  	// return location.reload();
 }
 
 // execute clearSiteData() when page is loaded or reloaded.
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    clearSiteData();
+window.addEventListener("load", function(event) {
+	console.log("updatetoggle=", toggle);
+	if (toggle) {
+		console.log(`clearing site data from ${event.target.URL}...`);
+		return clearSiteData();
+	}
+    return console.log("Times Bandit not enabled.");
 }); 
 
 // change icon appearance, clearSiteData() and reload when icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.browserAction.setIcon(
-			{path: "icon_48_inverse.png", tabId: tab.id}
-		);
-	clearSiteData();
-	console.log("reloading...");
-	setTimeout(()=>{
+	toggle = !toggle;
+	console.log("click, toggle=", toggle);
+	if (!toggle) {
+		console.log("Times Bandit disabled.");
+		 return chrome.browserAction.setIcon(
+		{
+			path: "icon_48_inverse.png",
+			tabId: tab.id
+		});
+	} else {
 		chrome.browserAction.setIcon(
-			{path: "icon_48.png", tabId: tab.id}
-		);
-		location.reload();
-	}, 500);
+		{
+			path: "icon_48.png",
+			tabId: tab.id
+		});
+		clearSiteData();
+		window.localStorage.setItem("times-bandit", "true");
+		console.log("cookies cleared");
+		return location.reload();
+	}
+	// chrome.browserAction.setIcon(
+	// 		{path: "icon_48_inverse.png", tabId: tab.id}
+	// 	);
+	// clearSiteData();
+	// console.log("reloading...");
+	// setTimeout(()=>{
+	// 	chrome.browserAction.setIcon(
+	// 		{path: "icon_48.png", tabId: tab.id}
+	// 	);
+	// 	location.reload();
+	// }, 500);
 });

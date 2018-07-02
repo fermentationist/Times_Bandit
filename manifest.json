@@ -1,6 +1,6 @@
 {
 	"name": "Times Bandit",
-	"description": "Clear local storage, session storage, and session cookies",
+	"description": "Automatically deletes most or all of the tracking data nytimes.com stores locally in the browser, making it more difficult for the site to tally the number of articles viewed. Click the extension icon to enable unencumbered browsing of the New York Times online.",
 	"version": "2.0",
 	"permissions": [
 		"activeTab",
@@ -14,10 +14,10 @@
 		"persistent": true
 	},
 	"browser_action": {
-		"default_icon": { "16": "icon_16.png",
-           "48": "icon_48.png",
-          "128": "icon_128.png" },
-		"default_title": "Click to clear local storage, session storage, and session cookies"
+		"default_icon": { "16": "icon_16_inverse.png",
+           "48": "icon_48_inverse.png",
+          "128": "icon_128_inverse.png" },
+		"default_title": "Removes nytimes.com tracking data from browser storage."
 	},
 	"manifest_version": 2
 }
