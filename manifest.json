@@ -7,7 +7,8 @@
 		"tabs",
 		"storage",
 		"cookies",
-		"*://*.nytimes.com/*"
+		"*://*.nytimes.com/",
+		"\u003Call_urls\u003E"
 	],
 	"background": {
 		"scripts": ["background.js"],
