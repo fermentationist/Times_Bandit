@@ -21,19 +21,35 @@
 // 	console.log("cookies =", chrome.cookies.getAllCookieStores(stores => console.log("stores =", stores)));
 // `;
 
-chrome.browserAction.onClicked.addListener(function (tab) {
+// chrome.browserAction.onClicked.addListener(function (tab) {
+// 	chrome.tabs.sendMessage(tab.id, {message: "clear storage"});
+// 	console.log("tab", tab);
+// 	chrome.browserAction.setIcon({
+// 		path: "./icon_48_inverse.png",
+// 		tabId: tab.id
+// 	});	
+// 	// injectedCode = activationCode;
+// 	chrome.browserAction.setIcon({
+// 		path: "./icon_48.png",
+// 		tabId: tab.id
+// 	});
+// 	// return chrome.tabs.executeScript({
+// 	// 	code: injectedCode
+// 	// });
+// });
+
+
+chrome.browserAction.onClicked.addListener(tab => {
+	console.log("tab =", tab);
 	chrome.tabs.sendMessage(tab.id, {message: "clear storage"});
-	console.log("tab", tab);
-	chrome.browserAction.setIcon({
-		path: "./icon_48_inverse.png",
-		tabId: tab.id
-	});
-	// injectedCode = activationCode;
-	chrome.browserAction.setIcon({
-		path: "./icon_48.png",
-		tabId: tab.id
-	});
-	// return chrome.tabs.executeScript({
-	// 	code: injectedCode
-	// });
+});
+
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+    console.log("contentScript called");
+    console.log("message = ", request.message);
+    console.log("sender.tab =", sender.tab);
+    if (request.message === "clearing storage") {
+        console.log(`request.message === "clearing storage"`);
+    }
+    return true
 });
