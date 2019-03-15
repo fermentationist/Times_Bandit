@@ -1,7 +1,7 @@
 {
 	"name": "Times Bandit",
-	"description": "Times Bandit is a browser extension for Google Chrome that removes some of the tracking data that nytimes.com stores in the browser.",
-	"version": "1.0",
+	"description": "Times Bandit is a browser extension for Google Chrome that temporarily clears some of the tracking data that nytimes.com stores in the browser.",
+	"version": "1.0.1",
 	"permissions": [
 		"activeTab",
 		"tabs",
@@ -17,7 +17,7 @@
 		"default_icon": { "16": "icon_16.png",
            "48": "icon_48.png",
           "128": "icon_128.png" },
-		"default_title": "Removes tracking data from browser storage."
+		"default_title": "Removes nytimes.com tracking data from browser storage."
 	},
 	"manifest_version": 2
 }
