@@ -20,9 +20,10 @@ const removeCookies = tab => {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	console.log("sender.tab", sender.tab);
     if (sender.tab){
-        console.log(`message received from ${sender.tab.url}: ${request.message}`);
-        return chrome.tabs.reload(sender.tab.tabId, true);
+        console.log(`message received from content script on ${sender.tab.url}: ${request.message}`);
+        return chrome.tabs.reload({bypassCache: true});
     }
     return console.log("Storage not cleared.");
 });
