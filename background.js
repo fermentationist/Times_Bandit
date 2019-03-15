@@ -1,55 +1,36 @@
-// const activationCode = `
-// 	console.log("is this even working?");
-// 	chrome.storage.local.clear(function cb() {
-// 		console.log("local storage cleared.")
-// 	});
-// 	const cookiesArray = document.cookie.split(";");
-// 	const keys = cookiesArray.map(cookieString => {
-// 		const trimmedCookie = cookieString.trim();
-// 		const endOfKey = trimmedCookie.indexOf("=");
-// 		const key = trimmedCookie.slice(0, endOfKey);
-// 		console.log("key is", key);
-// 		return key;	
-// 	});
-// 	keys.map(key => {
-// 		const domain = "*://*.nytimes.com/";
-// 		const revisedCookie = key + "=; domain=" + domain;
-// 		console.log("revision -", revisedCookie);
-// 		document.cookie = revisedCookie;
-		
-// 	});
-// 	console.log("cookies =", chrome.cookies.getAllCookieStores(stores => console.log("stores =", stores)));
-// `;
+const removeCookies = tab => {
+    return new Promise((resolve, reject) => {
+        chrome.cookies.getAll({
+            url: tab.url
+        }, cookies => {
+            let numCookiesRemoved = 0;
+            cookies.map(cookie => {
+                numCookiesRemoved++;
+                chrome.cookies.remove({
+                    url: tab.url,
+                    name: cookie.name
+                }, x => {
+                    console.log("cookie removed", x);
+                });
+            });
+            resolve(`${numCookiesRemoved} cookies removed.`);
+        });
+        
+    });
+}
 
-// chrome.browserAction.onClicked.addListener(function (tab) {
-// 	chrome.tabs.sendMessage(tab.id, {message: "clear storage"});
-// 	console.log("tab", tab);
-// 	chrome.browserAction.setIcon({
-// 		path: "./icon_48_inverse.png",
-// 		tabId: tab.id
-// 	});	
-// 	// injectedCode = activationCode;
-// 	chrome.browserAction.setIcon({
-// 		path: "./icon_48.png",
-// 		tabId: tab.id
-// 	});
-// 	// return chrome.tabs.executeScript({
-// 	// 	code: injectedCode
-// 	// });
-// });
-
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (sender.tab){
+        console.log(`message received from ${sender.tab.url}: ${request.message}`);
+        return chrome.tabs.reload(sender.tab.tabId, true);
+    }
+    return console.log("Storage not cleared.");
+});
 
 chrome.browserAction.onClicked.addListener(tab => {
-	console.log("tab =", tab);
-	chrome.tabs.sendMessage(tab.id, {message: "clear storage"});
+    removeCookies(tab).then(x => {
+        console.log(x);
+        chrome.tabs.sendMessage(tab.id, {message: "clear storage"});
+    });
 });
 
-chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
-    console.log("contentScript called");
-    console.log("message = ", request.message);
-    console.log("sender.tab =", sender.tab);
-    if (request.message === "clearing storage") {
-        console.log(`request.message === "clearing storage"`);
-    }
-    return true
-});
