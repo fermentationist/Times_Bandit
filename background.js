@@ -19,6 +19,18 @@ const removeCookies = tab => {
     });
 }
 
+const clearStorage = () => {
+	return chrome.tabs.executeScript(
+		{
+			code: `
+			localStorage.clear();
+			sessionStorage.clear();
+			chrome.runtime.sendMessage({message: "storage cleared."});
+			`
+		}
+	);
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.log("sender.tab", sender.tab);
     if (sender.tab){
@@ -31,7 +43,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.browserAction.onClicked.addListener(tab => {
     removeCookies(tab).then(x => {
         console.log(x);
-        chrome.tabs.sendMessage(tab.id, {message: "clear storage"});
+        clearStorage();
     });
 });
 

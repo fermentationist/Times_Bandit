@@ -1,24 +1,18 @@
 {
 	"name": "Times Bandit",
-	"description": "Times Bandit removes tracking data stored in the browser.\nWebsites track your visits by storing information on your machine, such as the number of free articles you have viewed, or when you last visited. Clicking the icon will delete most cookies stored by the current domain, clear both local and session storage, and then reload the current url.",
+	"description": "Times Bandit is a browser extension for Google Chrome that removes some of the tracking data that nytimes.com stores in the browser.",
 	"version": "1.0",
 	"permissions": [
 		"activeTab",
 		"tabs",
 		"storage",
 		"cookies",
-		"\u003Call_urls\u003E"
+		"*://*.nytimes.com/*"
 	],
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": true
 	},
-	"content_scripts": [
-		{
-		  "matches": ["\u003Call_urls\u003E"],
-		  "js": ["contentScript.js"]
-		}
-	],
 	"browser_action": {
 		"default_icon": { "16": "icon_16.png",
            "48": "icon_48.png",
