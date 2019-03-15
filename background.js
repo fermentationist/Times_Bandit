@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 chrome.browserAction.onClicked.addListener(tab => {
-    removeCookies(tab).then(x => {
+    return removeCookies(tab).then(x => {
         console.log(x);
         clearStorage();
     });
