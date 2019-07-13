@@ -1,5 +1,5 @@
+//use browser object if exists, else use chrome object
 let thisBrowser, browserName;
-
 if (typeof browser === "undefined") {
     thisBrowser = chrome;
     browserName = "chrome";
@@ -7,7 +7,7 @@ if (typeof browser === "undefined") {
     thisBrowser = browser;
     browserName = "browser";
 }
-console.log("thisBrowser:", thisBrowser);
+
 const removeCookies = tab => {
     return new Promise((resolve, reject) => {
         thisBrowser.cookies.getAll({

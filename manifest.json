@@ -1,7 +1,7 @@
 {
 	"name": "Times Bandit",
 	"description": "A browser extension that temporarily clears some of the tracking data that nytimes.com stores in the browser.",
-	"version": "1.0.2",
+	"version": "1.0.4",
 	"permissions": [
 		"activeTab",
 		"tabs",

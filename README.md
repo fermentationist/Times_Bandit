@@ -6,7 +6,7 @@ Times Bandit is a browser extension that clears data that nytimes.com stores loc
 
 It will delete all of the non-HttpOnly cookies stored locally by nytimes.com, clear both local and session storage, and then reload the current url.
 
-Times Bandit can be downloaded from the Chrome Web Store [here](https://chrome.google.com/webstore/detail/times-bandit/kbodloaojjbfdeeoglgapaflcfamgcml).
+Times Bandit can be downloaded from the Chrome Web Store [here](https://chrome.google.com/webstore/detail/times-bandit/kbodloaojjbfdeeoglgapaflcfamgcml), or as a Firefox Add-on [here] (https://addons.mozilla.org/en-US/firefox/addon/times-bandit/).
 
 ---
 #### License
