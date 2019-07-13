@@ -1,12 +1,22 @@
+let thisBrowser, browserName;
+
+if (typeof browser === "undefined") {
+    thisBrowser = chrome;
+    browserName = "chrome";
+} else {
+    thisBrowser = browser;
+    browserName = "browser";
+}
+console.log("thisBrowser:", thisBrowser);
 const removeCookies = tab => {
     return new Promise((resolve, reject) => {
-        chrome.cookies.getAll({
+        thisBrowser.cookies.getAll({
             url: tab.url
         }, cookies => {
             let numCookiesRemoved = 0;
             cookies.map(cookie => {
                 numCookiesRemoved++;
-                chrome.cookies.remove({
+                thisBrowser.cookies.remove({
                     url: tab.url,
                     name: cookie.name
                 }, x => {
@@ -20,26 +30,26 @@ const removeCookies = tab => {
 }
 
 const clearStorage = () => {
-	return chrome.tabs.executeScript(
+	return thisBrowser.tabs.executeScript(
 		{
 			code: `
 			localStorage.clear();
 			sessionStorage.clear();
-			chrome.runtime.sendMessage({message: "storage cleared."});
+			${browserName}.runtime.sendMessage({message: "storage cleared."});
 			`
 		}
 	);
 }
 
 const reloadPage = (message_listener = messageListener, click_listener = clickListener) => {
-	chrome.browserAction.onClicked.removeListener(click_listener);
-	console.log(chrome.browserAction.onClicked.hasListener(click_listener) ? `removal of listener: ${click_listener.name} failed.`: `listener: ${click_listener.name} removed successfully.`);
+	thisBrowser.browserAction.onClicked.removeListener(click_listener);
+	console.log(thisBrowser.browserAction.onClicked.hasListener(click_listener) ? `removal of listener: ${click_listener.name} failed.`: `listener: ${click_listener.name} removed successfully.`);
 
-	chrome.runtime.onMessage.removeListener(message_listener);
-	console.log(chrome.runtime.onMessage.hasListener(message_listener) ? `removal of listener: ${message_listener.name} failed.`: `listener: ${message_listener.name} removed successfully.`);
+	thisBrowser.runtime.onMessage.removeListener(message_listener);
+	console.log(thisBrowser.runtime.onMessage.hasListener(message_listener) ? `removal of listener: ${message_listener.name} failed.`: `listener: ${message_listener.name} removed successfully.`);
 
 	console.log("reloading...");
-	chrome.tabs.reload({bypassCache: true});
+	thisBrowser.tabs.reload({bypassCache: true});
 	addListeners(message_listener, click_listener);
 }
 
@@ -59,11 +69,11 @@ const clickListener = tab => {
 };
 
 const addListeners = (message_listener = messageListener, click_listener = clickListener) => {
-	chrome.browserAction.onClicked.addListener(click_listener);
-	chrome.runtime.onMessage.addListener(message_listener);
+	thisBrowser.browserAction.onClicked.addListener(click_listener);
+	thisBrowser.runtime.onMessage.addListener(message_listener);
 
 	const listenersAdded = 
-	chrome.runtime.onMessage.hasListener(message_listener) && chrome.browserAction.onClicked.hasListener(click_listener);
+	thisBrowser.runtime.onMessage.hasListener(message_listener) && thisBrowser.browserAction.onClicked.hasListener(click_listener);
 
 	console.log(listenersAdded ? "listeners added successfully" : "failed to add listeners");
 	return listenersAdded;

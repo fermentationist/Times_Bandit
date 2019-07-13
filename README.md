@@ -2,7 +2,7 @@
 
 ---
 
-Times Bandit is a Chrome extension that clears data that nytimes.com stores locally on the user's machine. When the limit of free articles has been reached, clicking the extension icon will reset the tracking data, allowing access to more free content.
+Times Bandit is a browser extension that clears data that nytimes.com stores locally on the user's machine. When the limit of free articles has been reached, clicking the extension icon will reset the tracking data, allowing access to more free content.
 
 It will delete all of the non-HttpOnly cookies stored locally by nytimes.com, clear both local and session storage, and then reload the current url.
 
